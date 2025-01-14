@@ -25,7 +25,7 @@ fun GlobalTopAppBar(
     isTitleShown: Boolean = true,
     showBackButton: Boolean = true,
     homeDestination: String,
-    defaultTitle: String = "Title",
+    defaultTitle: String = "Christopher Wong's Portfolio",
     actions: (@Composable RowScope.() -> Unit) = {},
     modifier: Modifier = Modifier
 ) {

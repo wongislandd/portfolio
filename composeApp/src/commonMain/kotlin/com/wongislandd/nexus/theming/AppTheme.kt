@@ -8,25 +8,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 // Primary and secondary colors
-val primaryColor = Color(0xFFFF5722) // Vibrant Orange
-val secondaryColor = Color(0xFF4CAF50) // Fresh Green
+val primaryColor = Color(0xFF3F51B5) // Muted Indigo
+val secondaryColor = Color(0xFF00C853) // Vibrant Green for accent
 
-// Accent colors
-val accentColor = Color(0xFFFFC107) // Playful Yellow
-val errorColor = Color(0xFFD32F2F) // Bright Red for errors
+// Error color
+val errorColor = Color(0xFFE57373) // Soft Red for errors
 
 // Background and text colors
 val backgroundColor
     @Composable
-    get() = if (isSystemInDarkTheme()) Color(0xFF121212) else Color(0xFFFFF3E0) // Warm Cream for light theme
+    get() = if (isSystemInDarkTheme()) Color(0xFF121212) else Color(0xFFFFFFFF) // Black for dark theme, white for light
 
 val textColor
     @Composable
-    get() = if (isSystemInDarkTheme()) Color(0xFFFFFFFF) else Color(0xFF212121) // Contrast-rich black text for light theme
+    get() = if (isSystemInDarkTheme()) Color(0xFFE0E0E0) else Color(0xFF212121) // Light gray for dark theme, dark gray for light
 
 val surfaceColor
     @Composable
-    get() = if (isSystemInDarkTheme()) Color(0xFF1E1E1E) else Color(0xFFFFE0B2) // Soft Orange Surface in light theme
+    get() = Color(0xFFFFFFFF) // White surface for both themes
 
 val ThemeColors
     @Composable
@@ -35,7 +34,7 @@ val ThemeColors
             primary = primaryColor,
             onPrimary = Color.White,
             secondary = secondaryColor,
-            onSecondary = Color.White,
+            onSecondary = Color.Black,
             background = backgroundColor,
             surface = surfaceColor,
             onSurface = textColor,
@@ -48,7 +47,7 @@ val ThemeColors
             primary = primaryColor,
             onPrimary = Color.White,
             secondary = secondaryColor,
-            onSecondary = Color.White,
+            onSecondary = Color.Black,
             background = backgroundColor,
             surface = surfaceColor,
             onSurface = textColor,
