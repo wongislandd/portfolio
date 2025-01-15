@@ -9,6 +9,9 @@ enum class IconKey {
     PERSON,
     FOLDER,
     PALETTE,
+    LINKEDIN,
+    GITHUB,
+    DOCUMENT,
     DEFAULT,
 }
 

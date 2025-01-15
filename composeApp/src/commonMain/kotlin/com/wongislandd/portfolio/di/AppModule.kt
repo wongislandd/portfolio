@@ -3,6 +3,7 @@ package com.wongislandd.portfolio.di
 import com.wongislandd.nexus.di.infraModule
 import com.wongislandd.nexus.navigation.NavigationItem
 import com.wongislandd.nexus.navigation.NavigationSlice
+import com.wongislandd.nexus.weblink.webLinkModule
 import com.wongislandd.portfolio.DesktopViewModel
 import com.wongislandd.portfolio.desktop.desktopModule
 import com.wongislandd.portfolio.navigation.supportedNavigationItems
@@ -20,5 +21,11 @@ fun appModule(appContext: Any? = null) = module {
 
 fun initializeKoin(context: Any? = null) =
     startKoin {
-        modules(*infraModule.toTypedArray(), appModule(context), desktopModule, drawingModule)
+        modules(
+            *infraModule.toTypedArray(),
+            appModule(context),
+            desktopModule,
+            drawingModule,
+            webLinkModule(context)
+        )
     }

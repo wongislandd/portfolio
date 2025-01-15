@@ -1,10 +1,11 @@
 import SwiftUI
+import ComposeApp
 
 @main
 struct iOSApp: App {
 
     init() {
-        AppModuleKt.initializeKoin(context: nil)
+        AppModule.kt.initializeKoin(context: nil)
     }
 
     var body: some Scene {

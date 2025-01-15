@@ -1,6 +1,11 @@
 package com.wongislandd.portfolio.desktop
 
+import DocumentIcon
+import Folder
+import GithubIcon
+import LinkedInIcon
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,8 +17,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -189,8 +196,11 @@ private fun FolderOverlay(openFolder: FolderWidget, modifier: Modifier = Modifie
         }
     }) {
         Surface(
-            modifier = Modifier.size(400.dp).align(Alignment.Center).noIndicationClickable(),
+            modifier = Modifier.widthIn(400.dp, 700.dp).heightIn(400.dp, 700.dp)
+                .align(Alignment.Center)
+                .noIndicationClickable(),
             shape = RoundedCornerShape(16.dp),
+            border = BorderStroke(8.dp, MaterialTheme.colors.onSurface)
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Row(
@@ -298,11 +308,30 @@ private fun WidgetIcon(iconKey: IconKey) {
             Palette
         }
 
-        else -> {
-            Icons.Filled.Warning
+        IconKey.FOLDER -> {
+            Folder
+        }
+
+        IconKey.LINKEDIN -> {
+            LinkedInIcon
+        }
+
+        IconKey.DOCUMENT -> {
+            DocumentIcon
+        }
+
+        IconKey.GITHUB -> {
+            GithubIcon
+        }
+
+        IconKey.DEFAULT -> {
+            Icons.Default.Warning
         }
     }
-    Icon(iconToUse, contentDescription = "Paint", tint = MaterialTheme.colors.onBackground)
+    Icon(
+        iconToUse, contentDescription = "Paint", modifier = Modifier.size(48.dp),
+        tint = MaterialTheme.colors.onBackground
+    )
 }
 
 @Composable
@@ -317,7 +346,8 @@ private fun DesktopWidget(widget: Widget, modifier: Modifier = Modifier, onClick
         Text(
             widget.displayName,
             style = MaterialTheme.typography.body1,
-            color = MaterialTheme.colors.onBackground
+            color = MaterialTheme.colors.onBackground,
+            modifier = Modifier.weight(1f)
         )
     }
 }

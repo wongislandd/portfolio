@@ -24,8 +24,8 @@ val textColor
     get() = if (isSystemInDarkTheme()) Color(0xFFE0E0E0) else Color(0xFF212121) // Light gray for dark theme, dark gray for light
 
 // Surface colors for light and dark themes
-val lightSurfaceColor = Color(0xFFFFFFFF) // White for light theme
-val darkSurfaceColor = Color(0xFF121212) // Dark gray for dark theme
+val lightSurfaceColor = Color(0xFFA8D08D) // White for light theme
+val darkSurfaceColor = Color(0xFF2F4F2F) // Dark gray for dark theme
 
 val surfaceColor
     @Composable

@@ -11,9 +11,17 @@ class WidgetProviderSlice : ViewModelSlice() {
             "Links",
             IconKey.FOLDER,
             listOf(
-                LinkWidget("GitHub", IconKey.DEFAULT, ""),
-                LinkWidget("LinkedIn", IconKey.DEFAULT, ""),
-                LinkWidget("Resume", IconKey.DEFAULT, "")
+                LinkWidget("GitHub", IconKey.GITHUB, "https://github.com/wongislandd"),
+                LinkWidget(
+                    "LinkedIn",
+                    IconKey.LINKEDIN,
+                    "https://www.linkedin.com/in/christopherwong99/"
+                ),
+                LinkWidget(
+                    "Resume",
+                    IconKey.DOCUMENT,
+                    "https://drive.google.com/file/d/1sI1TLofgTk0WmziGjX9jX2k3zu0CaRnk/view?usp=sharing"
+                )
             )
         )
     )
