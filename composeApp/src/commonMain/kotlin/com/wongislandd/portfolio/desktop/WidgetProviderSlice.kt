@@ -6,7 +6,6 @@ import kotlinx.coroutines.launch
 class WidgetProviderSlice : ViewModelSlice() {
     private val programWidgets = listOf(
         ProgramWidget("About Me", IconKey.PERSON, ProgramKey.ABOUT_ME),
-        ProgramWidget("Paint", IconKey.PALETTE, ProgramKey.PAINT),
         FolderWidget(
             "Links",
             IconKey.FOLDER,
@@ -23,7 +22,8 @@ class WidgetProviderSlice : ViewModelSlice() {
                     "https://drive.google.com/file/d/1sI1TLofgTk0WmziGjX9jX2k3zu0CaRnk/view?usp=sharing"
                 )
             )
-        )
+        ),
+        ProgramWidget("Paint", IconKey.PALETTE, ProgramKey.PAINT),
     )
 
     override fun afterInit() {
