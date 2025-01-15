@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
 data class TaskbarScreenState(
-    val activeWidgets: List<SelectableWidget> = listOf(),
+    val activeWidgets: List<TaskbarWidget> = listOf(),
 )
 
 data class ActiveWidgetsUpdate(
-    val activeWidgets: List<SelectableWidget>
+    val activeWidgets: List<TaskbarWidget>
 ) : BackChannelEvent
 
 class TaskbarScreenStateSlice : ViewModelSlice() {

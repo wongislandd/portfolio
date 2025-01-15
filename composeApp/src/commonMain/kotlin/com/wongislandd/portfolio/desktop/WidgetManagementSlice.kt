@@ -21,7 +21,7 @@ data class WidgetMinimizedEvent(
 class WidgetManagementSlice : ViewModelSlice() {
 
     // the order is the order in which they are rendered, selected one should always be the top
-    private val _activeWidgets: MutableStateFlow<List<SelectableWidget>> =
+    private val _activeWidgets: MutableStateFlow<List<TaskbarWidget>> =
         MutableStateFlow(listOf())
 
     override fun handleUiEvent(event: UiEvent) {
@@ -69,7 +69,7 @@ class WidgetManagementSlice : ViewModelSlice() {
             _activeWidgets.update { currentActiveWidgets ->
                 var result = currentActiveWidgets
                 if (!result.contains(clickedWidget)) {
-                    result = result + SelectableWidget(clickedWidget)
+                    result = result + TaskbarWidget(clickedWidget)
                 }
                 result.mapIndexed { index, activeWidget ->
                     val isSelected = activeWidget.widget == clickedWidget
@@ -85,6 +85,6 @@ class WidgetManagementSlice : ViewModelSlice() {
     }
 }
 
-private fun List<SelectableWidget>.contains(widget: Widget): Boolean {
+private fun List<TaskbarWidget>.contains(widget: Widget): Boolean {
     return this.any { it.widget == widget }
 }

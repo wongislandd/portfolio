@@ -61,65 +61,82 @@ private fun PrimaryContents(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun ProgramWindow(selectableWidget: SelectableWidget, modifier: Modifier = Modifier) {
-    val appViewModel = LocalAppViewModel.current
-    val coroutineScope = rememberCoroutineScope()
+private fun ProgramWindow(taskbarWidget: TaskbarWidget, modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.zIndex(selectableWidget.renderOrder.toFloat()).fillMaxSize(),
+        modifier = modifier.zIndex(taskbarWidget.renderOrder.toFloat()).fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().background(
-                MaterialTheme.colors.primary
-            ), horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = selectableWidget.widget.title,
-                style = MaterialTheme.typography.h6,
-                color = MaterialTheme.colors.onPrimary,
-                modifier = Modifier.padding(8.dp)
-            )
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(onClick = {
-                    coroutineScope.launch {
-                        appViewModel.uiEventBus.sendEvent(WidgetMinimizedEvent(selectableWidget.widget))
-                    }
-                }) {
-                    Icon(
-                        Minimize,
-                        contentDescription = "Minimize",
-                        tint = MaterialTheme.colors.onPrimary
-                    )
-                }
-                IconButton(onClick = {
-                    coroutineScope.launch {
-                        appViewModel.uiEventBus.sendEvent(WidgetClosedEvent(selectableWidget.widget))
-                    }
-                }) {
-                    Icon(
-                        Icons.Default.Close,
-                        contentDescription = "Close",
-                        tint = MaterialTheme.colors.onPrimary
-                    )
-                }
-            }
-        }
-        when (selectableWidget.widget.type) {
-            WidgetType.SELF_INFO -> {
-                ChrisInfo(modifier = Modifier.fillMaxSize())
-            }
+        ProgramWindowBar(taskbarWidget.widget)
+        ProgramContents(taskbarWidget.widget)
+    }
+}
 
-            WidgetType.DEMO -> {
-                Demo(modifier = Modifier.fillMaxSize())
-            }
+@Composable
+private fun ProgramContents(widget: Widget, modifier: Modifier = Modifier.fillMaxSize()) {
+    when (widget.type) {
+        WidgetType.SELF_INFO -> {
+            ChrisInfo(modifier)
+        }
+
+        WidgetType.DEMO -> {
+            Demo(modifier)
         }
     }
 }
+
+@Composable
+private fun ProgramWindowBar(widget: Widget) {
+    Row(
+        modifier = Modifier.fillMaxWidth().background(
+            MaterialTheme.colors.primary
+        ), horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = widget.title,
+            style = MaterialTheme.typography.h6,
+            color = MaterialTheme.colors.onPrimary,
+            modifier = Modifier.padding(8.dp)
+        )
+        ProgramWindowActions(widget)
+    }
+}
+
+@Composable
+private fun ProgramWindowActions(widget: Widget, modifier: Modifier = Modifier) {
+    val coroutineScope = rememberCoroutineScope()
+    val appViewModel = LocalAppViewModel.current
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IconButton(onClick = {
+            coroutineScope.launch {
+                appViewModel.uiEventBus.sendEvent(WidgetMinimizedEvent(widget))
+            }
+        }) {
+            Icon(
+                Minimize,
+                contentDescription = "Minimize",
+                tint = MaterialTheme.colors.onPrimary
+            )
+        }
+        IconButton(onClick = {
+            coroutineScope.launch {
+                appViewModel.uiEventBus.sendEvent(WidgetClosedEvent(widget))
+            }
+        }) {
+            Icon(
+                Icons.Default.Close,
+                contentDescription = "Close",
+                tint = MaterialTheme.colors.onPrimary
+            )
+        }
+    }
+}
+
 
 @Composable
 private fun Desktop(modifier: Modifier = Modifier) {
@@ -128,7 +145,7 @@ private fun Desktop(modifier: Modifier = Modifier) {
     val desktopScreenState by appViewModel.desktopScreenStateSlice.screenState.collectAsState()
     Box(
         modifier = modifier
-            .fillMaxWidth().background(
+            .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
                         MaterialTheme.colors.background,
@@ -137,7 +154,7 @@ private fun Desktop(modifier: Modifier = Modifier) {
                 )
             ).padding(32.dp)
     ) {
-        LazyVerticalGrid(columns = GridCells.Fixed(2), modifier = Modifier.align(Alignment.TopStart)) {
+        LazyVerticalGrid(columns = GridCells.FixedSize(size = 100.dp)) {
             items(desktopScreenState.availableWidgets.size) { index ->
                 val widget = desktopScreenState.availableWidgets[index]
                 ClickableWidget(widget) {
@@ -165,10 +182,10 @@ private fun Taskbar(modifier: Modifier = Modifier) {
         }
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(taskbarScreenState.activeWidgets.size) { index ->
-                val activeWidget = taskbarScreenState.activeWidgets[index]
-                ActiveWidget(activeWidget) {
+                val taskbarWidget = taskbarScreenState.activeWidgets[index]
+                TaskbarWidget(taskbarWidget) {
                     coroutineScope.launch {
-                        appViewModel.uiEventBus.sendEvent(WidgetClickedEvent(activeWidget.widget))
+                        appViewModel.uiEventBus.sendEvent(WidgetClickedEvent(taskbarWidget.widget))
                     }
                 }
             }
@@ -177,21 +194,21 @@ private fun Taskbar(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun ActiveWidget(
-    selectableWidget: SelectableWidget,
+private fun TaskbarWidget(
+    taskbarWidget: TaskbarWidget,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     Row(
         modifier = modifier.fillMaxHeight().background(
-            color = if (selectableWidget.selected) MaterialTheme.colors.secondary else
+            color = if (taskbarWidget.selected) MaterialTheme.colors.secondary else
                 MaterialTheme.colors.primary
         ).padding(8.dp).clickable(onClick = onClick),
     ) {
-        WidgetIcon(selectableWidget.widget.type)
+        WidgetIcon(taskbarWidget.widget.type)
         Spacer(modifier = Modifier.size(8.dp))
         Text(
-            selectableWidget.widget.title,
+            taskbarWidget.widget.title,
             style = MaterialTheme.typography.body1,
             color = MaterialTheme.colors.onBackground
         )

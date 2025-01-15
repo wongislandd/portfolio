@@ -7,7 +7,7 @@ enum class WidgetType {
 
 data class Widget(val type: WidgetType, val title: String)
 
-data class SelectableWidget(
+data class TaskbarWidget(
     val widget: Widget,
     val selected: Boolean = false,
     val minimized: Boolean = false,
