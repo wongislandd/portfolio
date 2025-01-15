@@ -7,4 +7,9 @@ enum class WidgetType {
 
 data class Widget(val type: WidgetType, val title: String)
 
-data class SelectableWidget(val widget: Widget, val selected: Boolean = false)
+data class SelectableWidget(
+    val widget: Widget,
+    val selected: Boolean = false,
+    val minimized: Boolean = false,
+    val renderOrder: Int = 0,
+)

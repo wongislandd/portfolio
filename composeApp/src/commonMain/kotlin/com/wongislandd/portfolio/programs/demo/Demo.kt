@@ -1,4 +1,4 @@
-package com.wongislandd.portfolio.programs.chrisinfo
+package com.wongislandd.portfolio.programs.demo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun ChrisInfo(modifier: Modifier = Modifier) {
-    Box(modifier = modifier.background(Color.Red)) {
+fun Demo(modifier: Modifier = Modifier) {
+    Box(modifier = modifier.background(Color.Black)) {
 
     }
 }
