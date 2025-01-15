@@ -21,7 +21,6 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -92,7 +91,7 @@ private fun ProgramWindow(selectableWidget: SelectableWidget, modifier: Modifier
                     }
                 }) {
                     Icon(
-                        Icons.Default.Build,
+                        Minimize,
                         contentDescription = "Minimize",
                         tint = MaterialTheme.colors.onPrimary
                     )
@@ -138,7 +137,7 @@ private fun Desktop(modifier: Modifier = Modifier) {
                 )
             ).padding(32.dp)
     ) {
-        LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+        LazyVerticalGrid(columns = GridCells.Fixed(2), modifier = Modifier.align(Alignment.TopStart)) {
             items(desktopScreenState.availableWidgets.size) { index ->
                 val widget = desktopScreenState.availableWidgets[index]
                 ClickableWidget(widget) {

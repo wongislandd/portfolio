@@ -7,5 +7,5 @@ val desktopModule = module {
     factoryOf(::DesktopScreenStateSlice)
     factoryOf(::TaskbarScreenStateSlice)
     factoryOf(::WidgetProviderSlice)
-    factoryOf(::ActiveWidgetsSlice)
+    factoryOf(::WidgetManagementSlice)
 }

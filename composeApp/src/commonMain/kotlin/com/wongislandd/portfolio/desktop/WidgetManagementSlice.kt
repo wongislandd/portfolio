@@ -18,7 +18,7 @@ data class WidgetMinimizedEvent(
     val widget: Widget
 ) : UiEvent
 
-class ActiveWidgetsSlice : ViewModelSlice() {
+class WidgetManagementSlice : ViewModelSlice() {
 
     // the order is the order in which they are rendered, selected one should always be the top
     private val _activeWidgets: MutableStateFlow<List<SelectableWidget>> =
@@ -28,7 +28,7 @@ class ActiveWidgetsSlice : ViewModelSlice() {
         super.handleUiEvent(event)
         when (event) {
             is WidgetClickedEvent -> {
-                handleDesktopWidgetClicked(event.widget)
+                handleWidgetClicked(event.widget)
             }
 
             is WidgetMinimizedEvent -> {
@@ -36,12 +36,12 @@ class ActiveWidgetsSlice : ViewModelSlice() {
             }
 
             is WidgetClosedEvent -> {
-                handleDesktopWidgetClosed(event.widget)
+                handleWidgetClosed(event.widget)
             }
         }
     }
 
-    private fun handleDesktopWidgetClosed(widget: Widget) {
+    private fun handleWidgetClosed(widget: Widget) {
         sliceScope.launch {
             _activeWidgets.update { currentActiveWidgets ->
                 currentActiveWidgets.filter { it.widget != widget }
@@ -64,7 +64,7 @@ class ActiveWidgetsSlice : ViewModelSlice() {
         }
     }
 
-    private fun handleDesktopWidgetClicked(clickedWidget: Widget) {
+    private fun handleWidgetClicked(clickedWidget: Widget) {
         sliceScope.launch {
             _activeWidgets.update { currentActiveWidgets ->
                 var result = currentActiveWidgets

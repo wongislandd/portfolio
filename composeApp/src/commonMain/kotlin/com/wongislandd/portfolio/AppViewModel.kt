@@ -6,7 +6,7 @@ import com.wongislandd.nexus.events.EventBus
 import com.wongislandd.nexus.events.UiEvent
 import com.wongislandd.nexus.navigation.NavigationSlice
 import com.wongislandd.nexus.viewmodel.SliceableViewModel
-import com.wongislandd.portfolio.desktop.ActiveWidgetsSlice
+import com.wongislandd.portfolio.desktop.WidgetManagementSlice
 import com.wongislandd.portfolio.desktop.DesktopScreenStateSlice
 import com.wongislandd.portfolio.desktop.TaskbarScreenStateSlice
 import com.wongislandd.portfolio.desktop.WidgetProviderSlice
@@ -16,7 +16,7 @@ class AppViewModel(
     val desktopScreenStateSlice: DesktopScreenStateSlice,
     val taskbarScreenStateSlice: TaskbarScreenStateSlice,
     private val navigationSlice: NavigationSlice,
-    activeWidgetsSlice: ActiveWidgetsSlice,
+    widgetManagementSlice: WidgetManagementSlice,
     widgetProviderSlice: WidgetProviderSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
@@ -25,7 +25,7 @@ class AppViewModel(
     init {
         registerSlices(
             navigationSlice, desktopScreenStateSlice, taskbarScreenStateSlice,
-            activeWidgetsSlice, widgetProviderSlice
+            widgetManagementSlice, widgetProviderSlice
         )
     }
 
