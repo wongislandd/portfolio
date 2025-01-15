@@ -6,21 +6,36 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-data class DesktopScreenState(val availableWidgets: List<Widget>)
 
-data class AvailableWidgetsUpdate(val availableWidgets: List<Widget>): BackChannelEvent
+data class DesktopScreenState(
+    val desktopWidgets: List<Widget>,
+    val openFolder: FolderWidget? = null
+)
+
+data class DesktopWidgetsUpdate(
+    val desktopWidgets: List<Widget>
+) : BackChannelEvent
+
+data class OpenFolderUpdate(
+    val folderWidget: FolderWidget?
+) : BackChannelEvent
 
 class DesktopScreenStateSlice : ViewModelSlice() {
     private val _screenState = MutableStateFlow(
-        DesktopScreenState(availableWidgets = listOf())
+        DesktopScreenState(desktopWidgets = listOf())
     )
     val screenState: StateFlow<DesktopScreenState> = _screenState
 
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         when (event) {
-            is AvailableWidgetsUpdate -> {
+            is DesktopWidgetsUpdate -> {
                 _screenState.update {
-                    it.copy(availableWidgets = event.availableWidgets)
+                    it.copy(desktopWidgets = event.desktopWidgets)
+                }
+            }
+            is OpenFolderUpdate -> {
+                _screenState.update {
+                    it.copy(openFolder = event.folderWidget)
                 }
             }
         }

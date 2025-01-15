@@ -1,24 +1,23 @@
 package com.wongislandd.portfolio.desktop
 
 import com.wongislandd.nexus.events.UiEvent
-import com.wongislandd.nexus.viewmodel.ViewModelSlice
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class WidgetClickedEvent(
-    val widget: Widget
+    val widget: Widget,
 ) : UiEvent
 
 data class WidgetClosedEvent(
-    val widget: Widget
+    val widget: ProgramWidget
 ) : UiEvent
 
 data class WidgetMinimizedEvent(
-    val widget: Widget
+    val widget: ProgramWidget
 ) : UiEvent
 
-class WidgetManagementSlice : ViewModelSlice() {
+class ProgramWidgetManagementSlice : WidgetClickHandlerSlice<ProgramWidget>() {
 
     // the order is the order in which they are rendered, selected one should always be the top
     private val _activeWidgets: MutableStateFlow<List<TaskbarWidget>> =
@@ -27,10 +26,6 @@ class WidgetManagementSlice : ViewModelSlice() {
     override fun handleUiEvent(event: UiEvent) {
         super.handleUiEvent(event)
         when (event) {
-            is WidgetClickedEvent -> {
-                handleWidgetClicked(event.widget)
-            }
-
             is WidgetMinimizedEvent -> {
                 handleWidgetMinimized(event.widget)
             }
@@ -41,22 +36,22 @@ class WidgetManagementSlice : ViewModelSlice() {
         }
     }
 
-    private fun handleWidgetClosed(widget: Widget) {
+    private fun handleWidgetClosed(programWidget: ProgramWidget) {
         sliceScope.launch {
             _activeWidgets.update { currentActiveWidgets ->
-                currentActiveWidgets.filter { it.widget != widget }
+                currentActiveWidgets.filter { it.programWidget != programWidget }
             }
             backChannelEvents.sendEvent(ActiveWidgetsUpdate(_activeWidgets.value))
         }
     }
 
-    private fun handleWidgetMinimized(minimizedWidget: Widget) {
+    private fun handleWidgetMinimized(minimizedProgramWidget: ProgramWidget) {
         sliceScope.launch {
             _activeWidgets.update { currentActiveWidgets ->
                 currentActiveWidgets.map { activeWidget ->
                     activeWidget.copy(
                         selected = false,
-                        minimized = if (minimizedWidget == activeWidget.widget) true else activeWidget.minimized,
+                        minimized = if (minimizedProgramWidget == activeWidget.programWidget) true else activeWidget.minimized,
                     )
                 }
             }
@@ -64,7 +59,7 @@ class WidgetManagementSlice : ViewModelSlice() {
         }
     }
 
-    private fun handleWidgetClicked(clickedWidget: Widget) {
+    override fun handleWidgetClicked(clickedWidget: ProgramWidget) {
         sliceScope.launch {
             _activeWidgets.update { currentActiveWidgets ->
                 var result = currentActiveWidgets
@@ -72,7 +67,7 @@ class WidgetManagementSlice : ViewModelSlice() {
                     result = result + TaskbarWidget(clickedWidget)
                 }
                 result.mapIndexed { index, activeWidget ->
-                    val isSelected = activeWidget.widget == clickedWidget
+                    val isSelected = activeWidget.programWidget == clickedWidget
                     activeWidget.copy(
                         selected = isSelected,
                         minimized = if (isSelected) false else activeWidget.minimized,
@@ -83,8 +78,9 @@ class WidgetManagementSlice : ViewModelSlice() {
             backChannelEvents.sendEvent(ActiveWidgetsUpdate(_activeWidgets.value))
         }
     }
+
 }
 
-private fun List<TaskbarWidget>.contains(widget: Widget): Boolean {
-    return this.any { it.widget == widget }
+private fun List<TaskbarWidget>.contains(programWidget: ProgramWidget): Boolean {
+    return this.any { it.programWidget == programWidget }
 }

@@ -19,10 +19,10 @@ import org.koin.core.annotation.KoinExperimentalAPI
 @Composable
 @Preview
 fun PortfolioApp(modifier: Modifier = Modifier) {
-    val appViewModel = koinViewModel<AppViewModel>()
+    val desktopViewModel = koinViewModel<DesktopViewModel>()
     AppTheme {
         KoinContext {
-            CompositionLocalProvider(LocalAppViewModel provides appViewModel) {
+            CompositionLocalProvider(LocalDesktopViewModel provides desktopViewModel) {
                 NavHostControllerProvider {
                     Box(
                         modifier = modifier.fillMaxSize()

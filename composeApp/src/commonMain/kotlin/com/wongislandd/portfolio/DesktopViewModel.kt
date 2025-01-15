@@ -6,17 +6,21 @@ import com.wongislandd.nexus.events.EventBus
 import com.wongislandd.nexus.events.UiEvent
 import com.wongislandd.nexus.navigation.NavigationSlice
 import com.wongislandd.nexus.viewmodel.SliceableViewModel
-import com.wongislandd.portfolio.desktop.WidgetManagementSlice
+import com.wongislandd.portfolio.desktop.ProgramWidgetManagementSlice
 import com.wongislandd.portfolio.desktop.DesktopScreenStateSlice
+import com.wongislandd.portfolio.desktop.FolderWidgetHandlerSlice
+import com.wongislandd.portfolio.desktop.LinkWidgetHandlerSlice
 import com.wongislandd.portfolio.desktop.TaskbarScreenStateSlice
 import com.wongislandd.portfolio.desktop.WidgetProviderSlice
 import com.wongislandd.portfolio.navigation.NavigationItemKey
 
-class AppViewModel(
+class DesktopViewModel(
     val desktopScreenStateSlice: DesktopScreenStateSlice,
     val taskbarScreenStateSlice: TaskbarScreenStateSlice,
     private val navigationSlice: NavigationSlice,
-    widgetManagementSlice: WidgetManagementSlice,
+    programWidgetManagementSlice: ProgramWidgetManagementSlice,
+    linkWidgetHandlerSlice: LinkWidgetHandlerSlice,
+    folderWidgetHandlerSlice: FolderWidgetHandlerSlice,
     widgetProviderSlice: WidgetProviderSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
@@ -25,7 +29,8 @@ class AppViewModel(
     init {
         registerSlices(
             navigationSlice, desktopScreenStateSlice, taskbarScreenStateSlice,
-            widgetManagementSlice, widgetProviderSlice
+            linkWidgetHandlerSlice, folderWidgetHandlerSlice,
+            programWidgetManagementSlice, widgetProviderSlice
         )
     }
 

@@ -3,7 +3,7 @@ package com.wongislandd.portfolio.di
 import com.wongislandd.nexus.di.infraModule
 import com.wongislandd.nexus.navigation.NavigationItem
 import com.wongislandd.nexus.navigation.NavigationSlice
-import com.wongislandd.portfolio.AppViewModel
+import com.wongislandd.portfolio.DesktopViewModel
 import com.wongislandd.portfolio.desktop.desktopModule
 import com.wongislandd.portfolio.navigation.supportedNavigationItems
 import com.wongislandd.portfolio.programs.drawingboard.drawingModule
@@ -13,7 +13,7 @@ import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
 fun appModule(appContext: Any? = null) = module {
-    viewModelOf(::AppViewModel)
+    viewModelOf(::DesktopViewModel)
     factoryOf(::NavigationSlice)
     single<Set<NavigationItem>> { supportedNavigationItems.values.toSet() }
 }
