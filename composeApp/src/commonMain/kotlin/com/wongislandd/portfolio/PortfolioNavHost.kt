@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.wongislandd.nexus.navigation.LocalNavHostController
-import com.wongislandd.portfolio.landingpage.LandingPage
 import com.wongislandd.portfolio.navigation.NavigationItemKey
 import com.wongislandd.portfolio.navigation.supportedNavigationItems
 import com.wongislandd.portfolio.sandbox.SandboxPage
@@ -62,7 +61,7 @@ fun PortfolioNavHost(
             composable(route = navigationItem.completeRoute) {
                 when (NavigationItemKey.valueOf(navigationItem.navigationKey)) {
                     NavigationItemKey.LANDING_PAGE -> {
-                        LandingPage()
+
                     }
                     NavigationItemKey.SANDBOX -> {
                         SandboxPage()

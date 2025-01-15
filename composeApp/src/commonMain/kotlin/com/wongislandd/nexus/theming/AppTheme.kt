@@ -17,15 +17,19 @@ val errorColor = Color(0xFFE57373) // Soft Red for errors
 // Background and text colors
 val backgroundColor
     @Composable
-    get() = if (isSystemInDarkTheme()) Color(0xFF228B22) else Color(0xFF228B22) // Black for dark theme, white for light
+    get() = if (isSystemInDarkTheme()) Color(0xFF121212) else Color(0xFFFFFFFF) // Dark gray for dark theme, white for light
 
 val textColor
     @Composable
     get() = if (isSystemInDarkTheme()) Color(0xFFE0E0E0) else Color(0xFF212121) // Light gray for dark theme, dark gray for light
 
+// Surface colors for light and dark themes
+val lightSurfaceColor = Color(0xFFFFFFFF) // White for light theme
+val darkSurfaceColor = Color(0xFF121212) // Dark gray for dark theme
+
 val surfaceColor
     @Composable
-    get() = Color(0xFFFFFFFF) // White surface for both themes
+    get() = if (isSystemInDarkTheme()) darkSurfaceColor else lightSurfaceColor
 
 val ThemeColors
     @Composable

@@ -1,4 +1,4 @@
-package com.wongislandd.portfolio.desktop
+package com.wongislandd.portfolio.desktop.icons
 
 /*
 * Converted using https://composables.com/svgtocompose

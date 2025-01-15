@@ -29,12 +29,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.wongislandd.portfolio.LocalAppViewModel
-import com.wongislandd.portfolio.programs.chrisinfo.ChrisInfo
-import com.wongislandd.portfolio.programs.demo.Demo
+import com.wongislandd.portfolio.desktop.icons.FaceIcon
+import com.wongislandd.portfolio.desktop.icons.IzanIcon
+import com.wongislandd.portfolio.programs.chrisinfo.AboutMe
+import com.wongislandd.portfolio.programs.drawingboard.DrawingBoardScreen
+import com.wongislandd.portfolio.desktop.icons.Palette
 import kotlinx.coroutines.launch
 
 @Composable
@@ -75,12 +77,12 @@ private fun ProgramWindow(taskbarWidget: TaskbarWidget, modifier: Modifier = Mod
 @Composable
 private fun ProgramContents(widget: Widget, modifier: Modifier = Modifier.fillMaxSize()) {
     when (widget.type) {
-        WidgetType.SELF_INFO -> {
-            ChrisInfo(modifier)
+        WidgetType.ABOUT_ME -> {
+            AboutMe(modifier)
         }
 
-        WidgetType.DEMO -> {
-            Demo(modifier)
+        WidgetType.PAINT -> {
+            DrawingBoardScreen()
         }
     }
 }
@@ -90,7 +92,7 @@ private fun ProgramWindowBar(widget: Widget) {
     Row(
         modifier = Modifier.fillMaxWidth().background(
             MaterialTheme.colors.primary
-        ), horizontalArrangement = Arrangement.SpaceBetween,
+        ).padding(start = 16.dp), horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -152,7 +154,7 @@ private fun Desktop(modifier: Modifier = Modifier) {
                         MaterialTheme.colors.background.copy(alpha = .4f)
                     )
                 )
-            ).padding(32.dp)
+            ).padding(vertical = 36.dp, horizontal = 16.dp)
     ) {
         LazyVerticalGrid(columns = GridCells.FixedSize(size = 100.dp)) {
             items(desktopScreenState.availableWidgets.size) { index ->
@@ -180,7 +182,7 @@ private fun Taskbar(modifier: Modifier = Modifier) {
         IconButton(onClick = {}, modifier = Modifier.padding(8.dp)) {
             Icon(IzanIcon, contentDescription = "CW OS", tint = MaterialTheme.colors.onPrimary)
         }
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        LazyRow {
             items(taskbarScreenState.activeWidgets.size) { index ->
                 val taskbarWidget = taskbarScreenState.activeWidgets[index]
                 TaskbarWidget(taskbarWidget) {
@@ -203,7 +205,8 @@ private fun TaskbarWidget(
         modifier = modifier.fillMaxHeight().background(
             color = if (taskbarWidget.selected) MaterialTheme.colors.secondary else
                 MaterialTheme.colors.primary
-        ).padding(8.dp).clickable(onClick = onClick),
+        ).padding(horizontal = 16.dp).clickable(onClick = onClick),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         WidgetIcon(taskbarWidget.widget.type)
         Spacer(modifier = Modifier.size(8.dp))
@@ -217,15 +220,16 @@ private fun TaskbarWidget(
 
 @Composable
 private fun WidgetIcon(widgetType: WidgetType) {
-    when (widgetType) {
-        WidgetType.SELF_INFO -> {
-            Box(modifier = Modifier.size(30.dp).background(color = Color.Magenta))
+    val iconToUse = when (widgetType) {
+        WidgetType.ABOUT_ME -> {
+            FaceIcon
         }
 
-        WidgetType.DEMO -> {
-            Box(modifier = Modifier.size(30.dp).background(color = Color.Cyan))
+        WidgetType.PAINT -> {
+            Palette
         }
     }
+    Icon(iconToUse, contentDescription = "Paint", tint = MaterialTheme.colors.onBackground)
 }
 
 @Composable

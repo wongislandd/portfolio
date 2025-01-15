@@ -1,8 +1,8 @@
 package com.wongislandd.portfolio.desktop
 
 enum class WidgetType {
-    SELF_INFO,
-    DEMO
+    ABOUT_ME,
+    PAINT
 }
 
 data class Widget(val type: WidgetType, val title: String)

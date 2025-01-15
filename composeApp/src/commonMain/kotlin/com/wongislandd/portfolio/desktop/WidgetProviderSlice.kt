@@ -5,8 +5,8 @@ import kotlinx.coroutines.launch
 
 class WidgetProviderSlice: ViewModelSlice() {
     private val widgets = listOf(
-        Widget(WidgetType.SELF_INFO, "Info"),
-        Widget(WidgetType.DEMO, "Demo")
+        Widget(WidgetType.ABOUT_ME, "About Me"),
+        Widget(WidgetType.PAINT, "Paint")
     )
 
     override fun afterInit() {
