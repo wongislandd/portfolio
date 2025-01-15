@@ -6,16 +6,27 @@ import com.wongislandd.nexus.events.EventBus
 import com.wongislandd.nexus.events.UiEvent
 import com.wongislandd.nexus.navigation.NavigationSlice
 import com.wongislandd.nexus.viewmodel.SliceableViewModel
+import com.wongislandd.portfolio.desktop.ActiveWidgetsSlice
+import com.wongislandd.portfolio.desktop.DesktopScreenStateSlice
+import com.wongislandd.portfolio.desktop.TaskbarScreenStateSlice
+import com.wongislandd.portfolio.desktop.WidgetProviderSlice
 import com.wongislandd.portfolio.navigation.NavigationItemKey
 
 class AppViewModel(
+    val desktopScreenStateSlice: DesktopScreenStateSlice,
+    val taskbarScreenStateSlice: TaskbarScreenStateSlice,
     private val navigationSlice: NavigationSlice,
+    activeWidgetsSlice: ActiveWidgetsSlice,
+    widgetProviderSlice: WidgetProviderSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
-): SliceableViewModel(uiEventBus, backChannelEventBus) {
+) : SliceableViewModel(uiEventBus, backChannelEventBus) {
 
     init {
-        registerSlices(navigationSlice)
+        registerSlices(
+            navigationSlice, desktopScreenStateSlice, taskbarScreenStateSlice,
+            activeWidgetsSlice, widgetProviderSlice
+        )
     }
 
     fun navigate(

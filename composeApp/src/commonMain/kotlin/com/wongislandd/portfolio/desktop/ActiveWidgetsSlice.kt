@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-data class DesktopWidgetClickedEvent(
+data class WidgetClickedEvent(
     val widget: Widget
 ) : UiEvent
 
@@ -18,7 +18,7 @@ class ActiveWidgetsSlice : ViewModelSlice() {
     override fun handleUiEvent(event: UiEvent) {
         super.handleUiEvent(event)
         when (event) {
-            is DesktopWidgetClickedEvent -> {
+            is WidgetClickedEvent -> {
                 handleDesktopWidgetClicked(event.widget)
             }
         }

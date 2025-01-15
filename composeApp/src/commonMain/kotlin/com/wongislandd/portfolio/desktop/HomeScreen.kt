@@ -27,24 +27,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.wongislandd.portfolio.LocalAppViewModel
 import kotlinx.coroutines.launch
-import org.koin.compose.viewmodel.koinViewModel
-import org.koin.core.annotation.KoinExperimentalAPI
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
     Column(modifier = modifier.fillMaxSize()) {
-        Desktop(modifier = Modifier.weight(1f))
+        PrimaryContents(modifier = Modifier.weight(1f))
         Taskbar()
     }
 }
 
-@OptIn(KoinExperimentalAPI::class)
+@Composable
+private fun PrimaryContents(modifier: Modifier = Modifier) {
+    Box(modifier = modifier.fillMaxSize()) {
+        Desktop(modifier = Modifier.fillMaxSize())
+    }
+}
+
 @Composable
 private fun Desktop(modifier: Modifier = Modifier) {
     val coroutineScope = rememberCoroutineScope()
-    val desktopViewModel = koinViewModel<DesktopViewModel>()
-    val desktopScreenState by desktopViewModel.desktopScreenStateSlice.screenState.collectAsState()
+    val appViewModel = LocalAppViewModel.current
+    val desktopScreenState by appViewModel.desktopScreenStateSlice.screenState.collectAsState()
     Box(
         modifier = modifier
             .fillMaxWidth().background(
@@ -61,7 +66,7 @@ private fun Desktop(modifier: Modifier = Modifier) {
                 val widget = desktopScreenState.availableWidgets[index]
                 ClickableWidget(widget) {
                     coroutineScope.launch {
-                        desktopViewModel.uiEventBus.sendEvent(DesktopWidgetClickedEvent(widget))
+                        appViewModel.uiEventBus.sendEvent(WidgetClickedEvent(widget))
                     }
                 }
             }
@@ -69,11 +74,12 @@ private fun Desktop(modifier: Modifier = Modifier) {
     }
 }
 
-@OptIn(KoinExperimentalAPI::class)
 @Composable
 private fun Taskbar(modifier: Modifier = Modifier) {
-    val desktopViewModel = koinViewModel<DesktopViewModel>()
-    val taskbarScreenState by desktopViewModel.taskbarScreenStateSlice.screenState.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+    val appViewModel = LocalAppViewModel.current
+
+    val taskbarScreenState by appViewModel.taskbarScreenStateSlice.screenState.collectAsState()
     Row(
         modifier = modifier.fillMaxWidth().height(40.dp)
             .background(color = MaterialTheme.colors.primary)
@@ -81,19 +87,27 @@ private fun Taskbar(modifier: Modifier = Modifier) {
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             items(taskbarScreenState.activeWidgets.size) { index ->
                 val activeWidget = taskbarScreenState.activeWidgets[index]
-                ActiveWidget(activeWidget)
+                ActiveWidget(activeWidget) {
+                    coroutineScope.launch {
+                        appViewModel.uiEventBus.sendEvent(WidgetClickedEvent(activeWidget.widget))
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-private fun ActiveWidget(selectableWidget: SelectableWidget, modifier: Modifier = Modifier) {
+private fun ActiveWidget(
+    selectableWidget: SelectableWidget,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
     Row(
         modifier = modifier.fillMaxHeight().background(
-            color = if (selectableWidget.selected) MaterialTheme.colors.primary.copy(alpha = .5f) else
-                MaterialTheme.colors.primary.copy(alpha = .2f)
-        ).padding(8.dp)
+            color = if (selectableWidget.selected) MaterialTheme.colors.secondary else
+                MaterialTheme.colors.primary
+        ).padding(8.dp).clickable(onClick = onClick),
     ) {
         WidgetIcon(selectableWidget.widget.type)
         Spacer(modifier = Modifier.size(8.dp))
