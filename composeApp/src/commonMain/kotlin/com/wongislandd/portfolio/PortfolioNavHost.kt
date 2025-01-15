@@ -11,6 +11,7 @@ import com.wongislandd.nexus.navigation.LocalNavHostController
 import com.wongislandd.portfolio.landingpage.LandingPage
 import com.wongislandd.portfolio.navigation.NavigationItemKey
 import com.wongislandd.portfolio.navigation.supportedNavigationItems
+import com.wongislandd.portfolio.sandbox.SandboxPage
 
 @Composable
 fun PortfolioNavHost(
@@ -58,10 +59,13 @@ fun PortfolioNavHost(
         modifier = modifier
     ) {
         supportedNavigationItems.map { (_, navigationItem) ->
-            when (NavigationItemKey.valueOf(navigationItem.navigationKey)) {
-                NavigationItemKey.LANDING_PAGE -> {
-                    composable(route = navigationItem.completeRoute) {
+            composable(route = navigationItem.completeRoute) {
+                when (NavigationItemKey.valueOf(navigationItem.navigationKey)) {
+                    NavigationItemKey.LANDING_PAGE -> {
                         LandingPage()
+                    }
+                    NavigationItemKey.SANDBOX -> {
+                        SandboxPage()
                     }
                 }
             }
