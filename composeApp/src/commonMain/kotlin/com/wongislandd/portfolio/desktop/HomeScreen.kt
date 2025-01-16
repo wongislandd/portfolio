@@ -51,6 +51,7 @@ import com.wongislandd.portfolio.desktop.icons.Minimize
 import com.wongislandd.portfolio.desktop.icons.Palette
 import com.wongislandd.portfolio.programs.chrisinfo.AboutMe
 import com.wongislandd.portfolio.programs.drawingboard.DrawingBoardScreen
+import com.wongislandd.portfolio.programs.webprogram.WebHost
 import kotlinx.coroutines.launch
 
 @Composable
@@ -97,9 +98,11 @@ private fun ProgramContents(
         ProgramKey.ABOUT_ME -> {
             AboutMe(modifier)
         }
-
         ProgramKey.PAINT -> {
-            DrawingBoardScreen()
+            DrawingBoardScreen(modifier = modifier)
+        }
+        ProgramKey.INFINITY_INDEX -> {
+            WebHost(url = "https://wongislandd.github.io/infinityindex/", modifier)
         }
     }
 }
@@ -228,7 +231,7 @@ private fun DesktopWidgetGrid(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val appViewModel = LocalDesktopViewModel.current
-    LazyVerticalGrid(modifier = modifier, columns = GridCells.FixedSize(size = 100.dp)) {
+    LazyVerticalGrid(modifier = modifier, columns = GridCells.FixedSize(size = 100.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         items(widgets.size) { index ->
             val widget = widgets[index]
             DesktopWidget(widget) {
