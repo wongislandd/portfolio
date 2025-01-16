@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
@@ -8,8 +10,38 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.buildkonfig)
 }
+
+buildkonfig {
+    packageName = "com.wongislandd.portfolio"
+
+    defaultConfigs {
+        val publicApiKey: String = gradleLocalProperties(rootDir, providers).getProperty("PUBLIC_API_KEY")
+        val privateApiKey: String = gradleLocalProperties(rootDir, providers).getProperty("PRIVATE_API_KEY")
+
+        require(publicApiKey.isNotEmpty()) {
+            "Register your Marvel API Public key place it in local.properties as `PUBLIC_API_KEY`"
+        }
+        require(privateApiKey.isNotEmpty()) {
+            "Register your Marvel API Private key place it in local.properties as `PRIVATE_API_KEY`"
+        }
+
+        buildConfigField(
+            Type.STRING,
+            "PUBLIC_API_KEY",
+            publicApiKey
+        )
+        buildConfigField(
+            Type.STRING,
+            "PRIVATE_API_KEY",
+            privateApiKey
+        )
+    }
+}
+
 
 kotlin {
     androidTarget {
@@ -32,25 +64,25 @@ kotlin {
     
     jvm("desktop")
     
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        moduleName = "composeApp"
-        browser {
-            val rootDirPath = project.rootDir.path
-            val projectDirPath = project.projectDir.path
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(rootDirPath)
-                        add(projectDirPath)
-                    }
-                }
-            }
-        }
-        binaries.executable()
-    }
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        moduleName = "composeApp"
+//        browser {
+//            val rootDirPath = project.rootDir.path
+//            val projectDirPath = project.projectDir.path
+//            commonWebpackConfig {
+//                outputFileName = "composeApp.js"
+//                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+//                    static = (static ?: mutableListOf()).apply {
+//                        // Serve sources to debug inside browser
+//                        add(rootDirPath)
+//                        add(projectDirPath)
+//                    }
+//                }
+//            }
+//        }
+//        binaries.executable()
+//    }
     
     sourceSets {
         val desktopMain by getting
@@ -72,6 +104,8 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.compose.colorpicker)
             implementation(projects.shared)
+            implementation(libs.bundles.nonweb)
+
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)

@@ -21,6 +21,10 @@ koinKtor = "3.5.0"
 okio = "3.9.1"
 kotlin-datetime="0.6.1"
 colorpicker="1.1.2"
+landscapist="2.4.0"
+paging3="3.3.0-alpha02-0.5.1"
+datastore="1.1.1"
+atomicfu = "0.23.2"
 
 
 [libraries]
@@ -52,6 +56,13 @@ squareup-okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlin-datetime" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization"}
 compose-colorpicker = { module = "com.github.skydoves:colorpicker-compose", version.ref = "colorpicker" }
+datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
+landscapist-coil = { module = "com.github.skydoves:landscapist-coil3", version.ref = "landscapist" }
+landscapist-placeholder = { module = "com.github.skydoves:landscapist-placeholder", version.ref = "landscapist" }
+paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "paging3" }
+paging-common = { module = "app.cash.paging:paging-common", version.ref = "paging3" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -81,4 +92,17 @@ nexus = [
     "kotlinx-serialization",
     "kotlinx-datetime",
     "squareup-okio"
+]
+
+infinityindex = [
+    "atomicfu",
+    "landscapist-coil",
+    "landscapist-placeholder",
+]
+
+nonweb = [
+    "paging-compose-common",
+    "paging-common",
+    "datastore",
+    "datastore-preferences",
 ]
