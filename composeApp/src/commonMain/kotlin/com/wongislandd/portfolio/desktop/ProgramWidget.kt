@@ -3,7 +3,6 @@ package com.wongislandd.portfolio.desktop
 enum class ProgramKey {
     ABOUT_ME,
     PAINT,
-    INFINITY_INDEX
 }
 
 enum class IconKey {

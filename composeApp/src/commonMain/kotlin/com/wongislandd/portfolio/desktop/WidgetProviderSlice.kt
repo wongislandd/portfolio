@@ -24,7 +24,7 @@ class WidgetProviderSlice : ViewModelSlice() {
             )
         ),
         ProgramWidget("Paint", IconKey.PALETTE, ProgramKey.PAINT),
-        ProgramWidget("Infinity Index", IconKey.DEFAULT, ProgramKey.INFINITY_INDEX),
+        LinkWidget("Infinity Index", IconKey.DEFAULT, "https://wongislandd.github.io/infinityindex"),
     )
 
     override fun afterInit() {

@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -39,10 +40,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.wongislandd.nexus.util.conditionallyChain
 import com.wongislandd.nexus.util.noIndicationClickable
 import com.wongislandd.portfolio.LocalDesktopViewModel
 import com.wongislandd.portfolio.desktop.icons.FaceIcon
@@ -51,7 +57,6 @@ import com.wongislandd.portfolio.desktop.icons.Minimize
 import com.wongislandd.portfolio.desktop.icons.Palette
 import com.wongislandd.portfolio.programs.chrisinfo.AboutMe
 import com.wongislandd.portfolio.programs.drawingboard.DrawingBoardScreen
-import com.wongislandd.portfolio.programs.webprogram.WebHost
 import kotlinx.coroutines.launch
 
 @Composable
@@ -68,24 +73,33 @@ private fun PrimaryContents(modifier: Modifier = Modifier) {
     val taskbarScreenState by appViewModel.taskbarScreenStateSlice.screenState.collectAsState()
     val activeWidgets = taskbarScreenState.activeWidgets
     Box(modifier = modifier.fillMaxSize()) {
-        Desktop(modifier = Modifier.fillMaxSize())
+        Desktop(modifier = Modifier.fillMaxSize().zIndex(0f))
         for (activeWidget in activeWidgets) {
-            if (!activeWidget.minimized) {
-                ProgramWindow(activeWidget, modifier = Modifier.align(Alignment.Center))
-            }
+            val zIndex = if (activeWidget.minimized) -1f else activeWidget.renderOrder.toFloat()
+            ProgramWindow(activeWidget, modifier = Modifier.align(Alignment.Center).zIndex(zIndex))
         }
     }
 }
 
 @Composable
 private fun ProgramWindow(taskbarWidget: TaskbarWidget, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier.zIndex(taskbarWidget.renderOrder.toFloat()).fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        ProgramWindowBar(taskbarWidget.programWidget)
-        ProgramContents(taskbarWidget.programWidget)
+    Box(modifier = modifier.fillMaxSize()) {
+        Column(
+            modifier = modifier.fillMaxSize()
+                .conditionallyChain(
+                    taskbarWidget.minimized,
+                    Modifier.alpha(0f)
+                ),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            ProgramWindowBar(taskbarWidget.programWidget)
+            ProgramContents(taskbarWidget.programWidget)
+        }
+        // Block any interaction with the window if it's minimized
+        if (taskbarWidget.minimized) {
+            Box(modifier = Modifier.fillMaxSize().clickable(enabled = false) { })
+        }
     }
 }
 
@@ -98,11 +112,9 @@ private fun ProgramContents(
         ProgramKey.ABOUT_ME -> {
             AboutMe(modifier)
         }
+
         ProgramKey.PAINT -> {
             DrawingBoardScreen(modifier = modifier)
-        }
-        ProgramKey.INFINITY_INDEX -> {
-            WebHost(url = "https://wongislandd.github.io/infinityindex/", modifier)
         }
     }
 }
@@ -231,7 +243,11 @@ private fun DesktopWidgetGrid(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val appViewModel = LocalDesktopViewModel.current
-    LazyVerticalGrid(modifier = modifier, columns = GridCells.FixedSize(size = 100.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+    LazyVerticalGrid(
+        modifier = modifier,
+        columns = GridCells.FixedSize(size = 100.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
         items(widgets.size) { index ->
             val widget = widgets[index]
             DesktopWidget(widget) {
@@ -340,7 +356,7 @@ private fun WidgetIcon(iconKey: IconKey) {
 @Composable
 private fun DesktopWidget(widget: Widget, modifier: Modifier = Modifier, onClick: () -> Unit) {
     Column(
-        modifier = modifier.size(80.dp).clickable(onClick = onClick),
+        modifier = modifier.width(100.dp).height(150.dp).clickable(onClick = onClick).padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -350,7 +366,10 @@ private fun DesktopWidget(widget: Widget, modifier: Modifier = Modifier, onClick
             widget.displayName,
             style = MaterialTheme.typography.body1,
             color = MaterialTheme.colors.onBackground,
-            modifier = Modifier.weight(1f)
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f),
+            textAlign = TextAlign.Center
         )
     }
 }

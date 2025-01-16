@@ -21,7 +21,6 @@ koinKtor = "3.5.0"
 okio = "3.9.1"
 kotlin-datetime="0.6.1"
 colorpicker="1.1.2"
-compose-webview="1.9.40"
 
 
 [libraries]
@@ -53,7 +52,6 @@ squareup-okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlin-datetime" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization"}
 compose-colorpicker = { module = "com.github.skydoves:colorpicker-compose", version.ref = "colorpicker" }
-compose-webview = { module ="io.github.kevinnzou:compose-webview-multiplatform", version.ref ="compose-webview"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -83,5 +81,4 @@ nexus = [
     "kotlinx-serialization",
     "kotlinx-datetime",
     "squareup-okio",
-    "compose-webview"
 ]
