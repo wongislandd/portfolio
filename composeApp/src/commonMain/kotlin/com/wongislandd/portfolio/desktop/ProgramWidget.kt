@@ -2,8 +2,7 @@ package com.wongislandd.portfolio.desktop
 
 enum class ProgramKey {
     ABOUT_ME,
-    PAINT,
-    INFINITY_INDEX,
+    PAINT
 }
 
 enum class IconKey {
@@ -14,7 +13,6 @@ enum class IconKey {
     GITHUB,
     DOCUMENT,
     DEFAULT,
-    INFINITY
 }
 
 data class ProgramWidget(

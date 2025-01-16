@@ -8,7 +8,6 @@ import com.wongislandd.portfolio.DesktopViewModel
 import com.wongislandd.portfolio.desktop.desktopModule
 import com.wongislandd.portfolio.navigation.supportedNavigationItems
 import com.wongislandd.portfolio.programs.drawingboard.drawingModule
-import com.wongislandd.portfolio.programs.infinityindex.infra.di.infinityIndexModule
 import org.koin.compose.viewmodel.dsl.viewModelOf
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.factoryOf
@@ -24,11 +23,9 @@ fun initializeKoin(context: Any? = null) =
     startKoin {
         modules(
             *infraModule.toTypedArray(),
-            *infinityIndexModule(context).toTypedArray(),
             appModule(context),
             desktopModule,
             drawingModule,
-
             webLinkModule(context)
         )
     }

@@ -50,10 +50,7 @@ import com.wongislandd.portfolio.desktop.icons.IzanIcon
 import com.wongislandd.portfolio.desktop.icons.Minimize
 import com.wongislandd.portfolio.desktop.icons.Palette
 import com.wongislandd.portfolio.programs.chrisinfo.AboutMe
-import com.wongislandd.portfolio.programs.drawingboard.DrawingApp
 import com.wongislandd.portfolio.programs.drawingboard.DrawingBoardScreen
-import com.wongislandd.portfolio.programs.infinityindex.InfinityIndexApp
-import com.wongislandd.portfolio.programs.infinityindex.infra.composables.MenuBook
 import kotlinx.coroutines.launch
 
 @Composable
@@ -100,11 +97,9 @@ private fun ProgramContents(
         ProgramKey.ABOUT_ME -> {
             AboutMe(modifier)
         }
+
         ProgramKey.PAINT -> {
-            DrawingApp(modifier)
-        }
-        ProgramKey.INFINITY_INDEX -> {
-            InfinityIndexApp(modifier)
+            DrawingBoardScreen()
         }
     }
 }
@@ -233,7 +228,7 @@ private fun DesktopWidgetGrid(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val appViewModel = LocalDesktopViewModel.current
-    LazyVerticalGrid(modifier = modifier, columns = GridCells.FixedSize(size = 100.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+    LazyVerticalGrid(modifier = modifier, columns = GridCells.FixedSize(size = 100.dp)) {
         items(widgets.size) { index ->
             val widget = widgets[index]
             DesktopWidget(widget) {
@@ -327,10 +322,6 @@ private fun WidgetIcon(iconKey: IconKey) {
 
         IconKey.GITHUB -> {
             GithubIcon
-        }
-
-        IconKey.INFINITY -> {
-            MenuBook
         }
 
         IconKey.DEFAULT -> {
