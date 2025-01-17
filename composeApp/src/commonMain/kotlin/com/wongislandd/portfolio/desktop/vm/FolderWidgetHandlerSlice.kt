@@ -1,6 +1,7 @@
-package com.wongislandd.portfolio.desktop
+package com.wongislandd.portfolio.desktop.vm
 
 import com.wongislandd.nexus.events.UiEvent
+import com.wongislandd.portfolio.desktop.data.FolderWidget
 import kotlinx.coroutines.launch
 
 data object CloseFolderEvent: UiEvent

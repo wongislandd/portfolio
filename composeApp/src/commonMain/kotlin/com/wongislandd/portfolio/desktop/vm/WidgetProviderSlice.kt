@@ -1,6 +1,11 @@
-package com.wongislandd.portfolio.desktop
+package com.wongislandd.portfolio.desktop.vm
 
 import com.wongislandd.nexus.viewmodel.ViewModelSlice
+import com.wongislandd.portfolio.desktop.data.FolderWidget
+import com.wongislandd.portfolio.desktop.data.IconKey
+import com.wongislandd.portfolio.desktop.data.LinkWidget
+import com.wongislandd.portfolio.desktop.data.ProgramKey
+import com.wongislandd.portfolio.desktop.data.ProgramWidget
 import kotlinx.coroutines.launch
 
 class WidgetProviderSlice : ViewModelSlice() {
@@ -17,6 +22,7 @@ class WidgetProviderSlice : ViewModelSlice() {
             IconKey.LINK,
             "https://drive.google.com/file/d/1sI1TLofgTk0WmziGjX9jX2k3zu0CaRnk/view?usp=sharing"
         ),
+        ProgramWidget("Inspector", IconKey.ENGINEER, ProgramKey.INSPECTOR),
         LinkWidget("Daily Doodle", IconKey.PALETTE, "https://wongislandd.github.io/daily-doodle"),
         LinkWidget("Infinity Index", IconKey.COMIC, "https://wongislandd.github.io/infinityindex"),
         LinkWidget("Wordlink", IconKey.GAME, "https://wongislandd.github.io/wordlink"),
@@ -37,7 +43,7 @@ class WidgetProviderSlice : ViewModelSlice() {
     override fun afterInit() {
         super.afterInit()
         sliceScope.launch {
-            backChannelEvents.sendEvent(DesktopWidgetsUpdate(programWidgets))
+            backChannelEvents.sendEvent(AvailableWidgetsUpdate(programWidgets))
         }
     }
 }

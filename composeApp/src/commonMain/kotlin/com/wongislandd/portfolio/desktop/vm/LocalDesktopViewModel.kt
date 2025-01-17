@@ -1,4 +1,4 @@
-package com.wongislandd.portfolio
+package com.wongislandd.portfolio.desktop.vm
 
 import androidx.compose.runtime.staticCompositionLocalOf
 

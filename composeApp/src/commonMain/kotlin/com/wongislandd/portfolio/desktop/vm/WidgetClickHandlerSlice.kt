@@ -1,7 +1,8 @@
-package com.wongislandd.portfolio.desktop
+package com.wongislandd.portfolio.desktop.vm
 
 import com.wongislandd.nexus.events.UiEvent
 import com.wongislandd.nexus.viewmodel.ViewModelSlice
+import com.wongislandd.portfolio.desktop.data.Widget
 
 abstract class WidgetClickHandlerSlice<T : Widget> : ViewModelSlice() {
 

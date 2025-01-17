@@ -1,7 +1,10 @@
-package com.wongislandd.portfolio.desktop
+package com.wongislandd.portfolio.desktop.vm
 
 import com.wongislandd.nexus.events.BackChannelEvent
+import com.wongislandd.nexus.events.UiEvent
 import com.wongislandd.nexus.viewmodel.ViewModelSlice
+import com.wongislandd.portfolio.desktop.data.FolderWidget
+import com.wongislandd.portfolio.desktop.data.Widget
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -12,8 +15,10 @@ data class DesktopScreenState(
     val openFolder: FolderWidget? = null
 )
 
-data class DesktopWidgetsUpdate(
-    val desktopWidgets: List<Widget>
+data object DesktopClickedEvent : UiEvent
+
+data class AvailableWidgetsUpdate(
+    val availableWidgets: List<Widget>
 ) : BackChannelEvent
 
 data class OpenFolderUpdate(
@@ -28,9 +33,9 @@ class DesktopScreenStateSlice : ViewModelSlice() {
 
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         when (event) {
-            is DesktopWidgetsUpdate -> {
+            is AvailableWidgetsUpdate -> {
                 _screenState.update {
-                    it.copy(desktopWidgets = event.desktopWidgets)
+                    it.copy(desktopWidgets = event.availableWidgets)
                 }
             }
             is OpenFolderUpdate -> {

@@ -20,6 +20,15 @@ fun <T> MutableList<T>.addUniqueWithLimit(element: T, maxSize: Int): MutableList
     return this
 }
 
+// add with limit
+fun <T> MutableList<T>.addWithLimit(element: T, maxSize: Int): MutableList<T> {
+    this.add(element)
+    if (this.size > maxSize) {
+        this.removeAt(0) // Removes the first element (oldest)
+    }
+    return this
+}
+
 fun Modifier.noIndicationClickable(onClick: () -> Unit = {}) : Modifier {
     return this.clickable(indication = null, interactionSource = null, onClick = onClick)
 }

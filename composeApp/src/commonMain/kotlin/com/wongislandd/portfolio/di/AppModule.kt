@@ -4,7 +4,7 @@ import com.wongislandd.nexus.di.infraModule
 import com.wongislandd.nexus.navigation.NavigationItem
 import com.wongislandd.nexus.navigation.NavigationSlice
 import com.wongislandd.nexus.weblink.webLinkModule
-import com.wongislandd.portfolio.DesktopViewModel
+import com.wongislandd.portfolio.desktop.vm.DesktopViewModel
 import com.wongislandd.portfolio.desktop.desktopModule
 import com.wongislandd.portfolio.navigation.supportedNavigationItems
 import org.koin.compose.viewmodel.dsl.viewModelOf

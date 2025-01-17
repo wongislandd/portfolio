@@ -1,6 +1,7 @@
-package com.wongislandd.portfolio.desktop
+package com.wongislandd.portfolio.desktop.vm
 
 import com.wongislandd.nexus.weblink.WebLinkRouter
+import com.wongislandd.portfolio.desktop.data.LinkWidget
 
 class LinkWidgetHandlerSlice(
     private val webLinkRouter: WebLinkRouter

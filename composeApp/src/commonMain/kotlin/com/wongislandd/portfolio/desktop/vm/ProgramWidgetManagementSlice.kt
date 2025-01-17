@@ -1,6 +1,9 @@
-package com.wongislandd.portfolio.desktop
+package com.wongislandd.portfolio.desktop.vm
 
 import com.wongislandd.nexus.events.UiEvent
+import com.wongislandd.portfolio.desktop.data.ProgramWidget
+import com.wongislandd.portfolio.desktop.data.TaskbarWidget
+import com.wongislandd.portfolio.desktop.data.Widget
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -61,6 +64,7 @@ class ProgramWidgetManagementSlice : WidgetClickHandlerSlice<ProgramWidget>() {
 
     override fun handleWidgetClicked(clickedWidget: ProgramWidget) {
         sliceScope.launch {
+            val originalValue = _activeWidgets.value
             _activeWidgets.update { currentActiveWidgets ->
                 var result = currentActiveWidgets
                 if (!result.contains(clickedWidget)) {
@@ -75,7 +79,9 @@ class ProgramWidgetManagementSlice : WidgetClickHandlerSlice<ProgramWidget>() {
                     )
                 }
             }
-            backChannelEvents.sendEvent(ActiveWidgetsUpdate(_activeWidgets.value))
+            if (_activeWidgets.value != originalValue) {
+                backChannelEvents.sendEvent(ActiveWidgetsUpdate(_activeWidgets.value))
+            }
         }
     }
 
