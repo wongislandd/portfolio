@@ -14,6 +14,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -242,8 +243,9 @@ private fun DesktopWidgetGrid(
     val appViewModel = LocalDesktopViewModel.current
     LazyVerticalGrid(
         modifier = modifier,
+        contentPadding = PaddingValues(horizontal = 16.dp),
         columns = GridCells.FixedSize(size = 100.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(widgets.size) { index ->
             val widget = widgets[index]
@@ -300,7 +302,7 @@ private fun TaskbarWidget(
         modifier = modifier.fillMaxHeight().background(
             color = if (taskbarWidget.selected) MaterialTheme.colors.secondary else
                 MaterialTheme.colors.primary
-        ).padding(horizontal = 16.dp).clickable(onClick = onClick),
+        ).clickable(onClick = onClick).padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         WidgetIcon(taskbarWidget.programWidget.iconKey)
@@ -364,21 +366,26 @@ private fun WidgetIcon(iconKey: IconKey) {
 
 @Composable
 private fun DesktopWidget(widget: Widget, modifier: Modifier = Modifier, onClick: () -> Unit) {
-    Column(
-        modifier = modifier.width(100.dp).height(150.dp).clickable(onClick = onClick).padding(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+    Box(
+        modifier = modifier.width(100.dp).height(125.dp).clickable(onClick = onClick).padding(8.dp)
     ) {
-        WidgetIcon(widget.iconKey)
-        Spacer(modifier = Modifier.size(8.dp))
-        Text(
-            widget.displayName,
-            style = MaterialTheme.typography.body1,
-            color = MaterialTheme.colors.onBackground,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.weight(1f),
-            textAlign = TextAlign.Center
-        )
+        Column(
+            modifier = Modifier.align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            WidgetIcon(widget.iconKey)
+            Spacer(modifier = Modifier.size(4.dp))
+            Text(
+                widget.displayName,
+                style = MaterialTheme.typography.body1,
+                color = MaterialTheme.colors.onBackground,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Center
+            )
+        }
     }
+
 }
