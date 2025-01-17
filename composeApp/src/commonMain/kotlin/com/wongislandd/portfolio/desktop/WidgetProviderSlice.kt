@@ -23,8 +23,10 @@ class WidgetProviderSlice : ViewModelSlice() {
                 )
             )
         ),
-        ProgramWidget("Paint", IconKey.PALETTE, ProgramKey.PAINT),
+        LinkWidget("Daily Doodle", IconKey.PALETTE, "https://wongislandd.github.io/daily-doodle"),
         LinkWidget("Infinity Index", IconKey.DEFAULT, "https://wongislandd.github.io/infinityindex"),
+        LinkWidget("Sheep Hunt", IconKey.DEFAULT, "https://wongislandd.github.io/SheepHunt"),
+        LinkWidget("Wordlink", IconKey.DEFAULT, "https://wongislandd.github.io/wordlink")
     )
 
     override fun afterInit() {
