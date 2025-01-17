@@ -7,7 +7,6 @@ import com.wongislandd.nexus.weblink.webLinkModule
 import com.wongislandd.portfolio.DesktopViewModel
 import com.wongislandd.portfolio.desktop.desktopModule
 import com.wongislandd.portfolio.navigation.supportedNavigationItems
-import com.wongislandd.portfolio.programs.drawingboard.drawingModule
 import org.koin.compose.viewmodel.dsl.viewModelOf
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.factoryOf
@@ -25,7 +24,6 @@ fun initializeKoin(context: Any? = null) =
             *infraModule.toTypedArray(),
             appModule(context),
             desktopModule,
-            drawingModule,
             webLinkModule(context)
         )
     }

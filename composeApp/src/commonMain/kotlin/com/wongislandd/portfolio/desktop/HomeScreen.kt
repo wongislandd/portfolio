@@ -1,8 +1,11 @@
 package com.wongislandd.portfolio.desktop
 
+import ComicIcon
+import ControllerIcon
 import DocumentIcon
 import Folder
 import GithubIcon
+import LinkIcon
 import LinkedInIcon
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
@@ -43,7 +46,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -56,7 +58,6 @@ import com.wongislandd.portfolio.desktop.icons.IzanIcon
 import com.wongislandd.portfolio.desktop.icons.Minimize
 import com.wongislandd.portfolio.desktop.icons.Palette
 import com.wongislandd.portfolio.programs.chrisinfo.AboutMe
-import com.wongislandd.portfolio.programs.drawingboard.DrawingBoardScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -111,10 +112,6 @@ private fun ProgramContents(
     when (programWidget.type) {
         ProgramKey.ABOUT_ME -> {
             AboutMe(modifier)
-        }
-
-        ProgramKey.PAINT -> {
-            DrawingBoardScreen(modifier = modifier)
         }
     }
 }
@@ -229,7 +226,7 @@ private fun FolderOverlay(openFolder: FolderWidget, modifier: Modifier = Modifie
                         modifier = Modifier.padding(8.dp)
                     )
                 }
-                DesktopWidgetGrid(openFolder.programWidgets)
+                DesktopWidgetGrid(openFolder.childWidgets)
             }
         }
     }
@@ -341,6 +338,18 @@ private fun WidgetIcon(iconKey: IconKey) {
 
         IconKey.GITHUB -> {
             GithubIcon
+        }
+
+        IconKey.COMIC -> {
+            ComicIcon
+        }
+
+        IconKey.GAME -> {
+            ControllerIcon
+        }
+
+        IconKey.LINK -> {
+            LinkIcon
         }
 
         IconKey.DEFAULT -> {

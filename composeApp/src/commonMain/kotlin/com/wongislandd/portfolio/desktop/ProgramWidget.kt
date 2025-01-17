@@ -2,7 +2,6 @@ package com.wongislandd.portfolio.desktop
 
 enum class ProgramKey {
     ABOUT_ME,
-    PAINT,
 }
 
 enum class IconKey {
@@ -12,6 +11,9 @@ enum class IconKey {
     LINKEDIN,
     GITHUB,
     DOCUMENT,
+    GAME,
+    COMIC,
+    LINK,
     DEFAULT,
 }
 
@@ -29,8 +31,8 @@ data class LinkWidget(
 
 data class FolderWidget(
     override val displayName: String,
-    override val iconKey: IconKey,
-    val programWidgets: List<Widget>
+    override val iconKey: IconKey = IconKey.FOLDER,
+    val childWidgets: List<Widget>
 ) : Widget
 
 interface Widget {
