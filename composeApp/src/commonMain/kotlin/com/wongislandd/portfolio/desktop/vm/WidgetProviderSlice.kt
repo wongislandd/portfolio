@@ -24,7 +24,7 @@ class WidgetProviderSlice : ViewModelSlice() {
         ),
         ProgramWidget("Inspector", IconKey.ENGINEER, ProgramKey.INSPECTOR),
         LinkWidget("Daily Doodle", IconKey.PALETTE, "https://wongislandd.github.io/daily-doodle"),
-        LinkWidget("Infinity Index", IconKey.COMIC, "https://wongislandd.github.io/infinityindex"),
+        LinkWidget("Infinity Index", IconKey.COMIC, "https://pocketpowered.github.io/infinityindex"),
         LinkWidget("Wordlink", IconKey.GAME, "https://wongislandd.github.io/wordlink"),
         FolderWidget(
             displayName = "College Projects",
