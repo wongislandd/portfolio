@@ -23,7 +23,7 @@ class WidgetProviderSlice : ViewModelSlice() {
             "https://drive.google.com/drive/folders/1OL_S5AjKuugEdrvlNusQN8B2-iV4zrZK?usp=sharing"
         ),
         ProgramWidget("Inspector", IconKey.ENGINEER, ProgramKey.INSPECTOR),
-        LinkWidget("Daily Doodle", IconKey.PALETTE, "https://wongislandd.github.io/daily-doodle"),
+        LinkWidget("Daily Doodle", IconKey.PALETTE, "https://pocketpowered.github.io/daily-doodle"),
         LinkWidget("Infinity Index", IconKey.COMIC, "https://pocketpowered.github.io/infinityindex"),
         LinkWidget("Wordlink", IconKey.GAME, "https://wongislandd.github.io/wordlink"),
         FolderWidget(
