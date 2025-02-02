@@ -20,7 +20,7 @@ class WidgetProviderSlice : ViewModelSlice() {
         LinkWidget(
             "Resume",
             IconKey.LINK,
-            "https://drive.google.com/file/d/1sI1TLofgTk0WmziGjX9jX2k3zu0CaRnk/view?usp=sharing"
+            "https://drive.google.com/drive/folders/1OL_S5AjKuugEdrvlNusQN8B2-iV4zrZK?usp=sharing"
         ),
         ProgramWidget("Inspector", IconKey.ENGINEER, ProgramKey.INSPECTOR),
         LinkWidget("Daily Doodle", IconKey.PALETTE, "https://wongislandd.github.io/daily-doodle"),
